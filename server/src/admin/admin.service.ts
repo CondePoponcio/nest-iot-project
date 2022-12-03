@@ -26,7 +26,7 @@ export class AdminService {
     }
 
     async update(username: string, updateAdminDto: UpdateAdminDto) : Promise<void> {
-        await this.adminRepository.save(updateAdminDto);
+        await this.adminRepository.update(username,updateAdminDto);
     }
 
     async remove(username: string) : Promise<void> {

@@ -44,7 +44,7 @@ export class AdminController {
 
     @Get(':username')
     async findOne(@Param('username') username: string) {
-        return await this.adminService.findOne(username);
+        return await this.adminService.findOne({"username":username});
     }
 
     @Put(':username')

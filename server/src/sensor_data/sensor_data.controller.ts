@@ -2,14 +2,12 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Headers, Put, Inject
 import { SensorDataService } from './sensor_data.service';
 import { CreateSensorDatumDto } from './dto/create-sensor_datum.dto';
 import { UpdateSensorDatumDto } from './dto/update-sensor_datum.dto';
-import { JwtService } from '@nestjs/jwt';
 const mqtt = require('mqtt');
 
 @Controller('api/v1/sensor_data')
 export class SensorDataController {
     constructor(
-        private readonly sensorDataService: SensorDataService,
-        private jwtService: JwtService
+        private readonly sensorDataService: SensorDataService
     ) {}
 
     @Get('sensorData')
@@ -36,13 +34,8 @@ export class SensorDataController {
     @Post()
     async create(@Headers() token, @Body() createSensorDto: CreateSensorDatumDto) {
         try{
-            if(await this.jwtService.verifyAsync(token['token'])){
-                var key = await this.jwtService.decode(token['token']);
-                console.log(key['key'], createSensorDto.data['api_key'])
-                if(key['key'] == createSensorDto.data['api_key']){
-                  console.log("J")
-                    return await this.sensorDataService.create(createSensorDto);
-                }
+            if(token['token'] == createSensorDto.data['api_key']){
+                return await this.sensorDataService.create(createSensorDto);
             }
         } catch (err) {
             console.log(err);
@@ -51,11 +44,9 @@ export class SensorDataController {
     }
     
     @Get()
-    async findAll(@Headers() token) {
+    async findAll() {
         try{
-            if(await this.jwtService.verifyAsync(token['token'])){
-                return await this.sensorDataService.findAll();
-            }
+            return await this.sensorDataService.findAll();
         } catch (err) {
             console.log(err);
             return err.name;
@@ -65,15 +56,9 @@ export class SensorDataController {
     @Get(':id')
     async findOne(@Headers() token, @Param('id') id: string) {
         try{
-            if(await this.jwtService.verifyAsync(token['token'])){
-                var key = await this.jwtService.decode(token['token']);
-                var result2 = await this.sensorDataService.findOne({id:+id})
-                var parse = JSON.stringify(result2.data);
-                
-                console.log(key, parse)
-                if(key['key'] == result2.data['api_key']){
-                    return result2;
-                }
+            var result2 = await this.sensorDataService.findOne({id:+id})
+            if(token['token'] == result2.data['api_key']){
+                return result2;
             }
         } catch (err) {
             console.log(err);
@@ -84,12 +69,9 @@ export class SensorDataController {
     @Put(':id')
     async update(@Headers() token, @Param('id') id: string, @Body() updateSensorDto: UpdateSensorDatumDto) {
         try{
-            if(await this.jwtService.verifyAsync(token['token'])){
-                var key = await this.jwtService.decode(token['token']);
-                var result2 = await this.sensorDataService.findOne(+id)
-                if(key['key'] == result2.data['api_key']){
-                    return await this.sensorDataService.update(+id, updateSensorDto);
-                } 
+            var result2 = await this.sensorDataService.findOne({"id":id});
+            if(token['token'] == result2.data['api_key']){
+                return await this.sensorDataService.update(+id, updateSensorDto);
             }
         } catch (err) {
             console.log(err);
@@ -100,12 +82,9 @@ export class SensorDataController {
     @Delete(':id')
     async remove(@Headers() token, @Param('id') id: string) {
         try{
-            if(await this.jwtService.verifyAsync(token['token'])){
-                var key = await this.jwtService.decode(token['token']);
-                var result2 = await this.sensorDataService.findOne(+id)
-                if(key['key'] == result2.data['api_key']){
-                    return await this.sensorDataService.remove(+id);
-                }     
+            var result2 = await this.sensorDataService.findOne({"id":id});
+            if(token['token'] == result2.data['api_key']){
+                return await this.sensorDataService.remove(+id);
             }
         } catch (err) {
             console.log(err);

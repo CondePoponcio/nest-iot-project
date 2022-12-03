@@ -41,7 +41,7 @@ export class SensorService {
 
     async update(id: number, updateSensorDto: UpdateSensorDto) : Promise<void> {
         try{ 
-            await this.sensorRepository.save(updateSensorDto);
+            await this.sensorRepository.update(id,updateSensorDto);
         } catch (err) {
             console.log(err);
             return err.name;

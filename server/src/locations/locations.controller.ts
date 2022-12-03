@@ -25,7 +25,7 @@ export class LocationsController {
     }
 
     @Get()
-    async findAll(@Headers() token) {
+    async findAll() {
         try{
             return await this.locationsService.findAll();
         } catch (err) {
@@ -39,6 +39,7 @@ export class LocationsController {
         try{
             var result = await this.companyService.findOne({"api_key":token["token"]})
             var result2 = await this.locationsService.findOne({"id":id});
+            console.log(result, result2)
             if(result.id == result2.company_id){
                     return result2;
             }                
