@@ -42,8 +42,7 @@ export class LocationsService {
 
     async update(id: number, updateLocationDto: UpdateLocationDto) : Promise<void> {
         try {
-            var data = await this.locationRepository.findOneBy({id});
-            await this.locationRepository.update(data.company_id, updateLocationDto);
+            await this.locationRepository.update(id, updateLocationDto);
         } catch (err){
             console.log(err);
             return err.name;

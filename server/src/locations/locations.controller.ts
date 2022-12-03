@@ -38,7 +38,7 @@ export class LocationsController {
     async findOne(@Headers() token, @Param('id') id: string) {
         try{
             var result = await this.companyService.findOne({"api_key":token["token"]})
-            var result2 = await this.locationsService.findOne(+id)
+            var result2 = await this.locationsService.findOne({"id":id});
             if(result.id == result2.company_id){
                     return result2;
             }                
@@ -52,7 +52,7 @@ export class LocationsController {
     async update(@Headers() token, @Param('id') id: string, @Body() updateLocationDto: UpdateLocationDto) {
         try{
             var result = await this.companyService.findOne({"api_key":token["token"]})
-            var result2 = await this.locationsService.findOne(+id)
+            var result2 = await this.locationsService.findOne({"id":id});
             if(result.id == result2.company_id){
                 return await this.locationsService.update(+id, updateLocationDto);
             }
@@ -66,7 +66,7 @@ export class LocationsController {
     async remove(@Headers() token, @Param('id') id: string) {
         try{
             var result = await this.companyService.findOne({"api_key":token["token"]})
-            var result2 = await this.locationsService.findOne(+id)
+            var result2 = await this.locationsService.findOne({"id":id});
             if(result.id == result2.company_id){
                 return await this.locationsService.remove(+id);
             }
