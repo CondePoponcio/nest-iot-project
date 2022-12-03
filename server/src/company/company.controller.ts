@@ -14,9 +14,7 @@ export class CompanyController {
     @Post()
     async create(@Body() createCompanyDto: CreateCompanyDto) {
         var result = await this.companyService.create(createCompanyDto);
-        const payload = { key: result['generatedMaps'][0].api_key };
-        var company_api_key = this.jwtService.sign(payload);
-        return [result['generatedMaps'][0].id, company_api_key];
+        return result['generatedMaps'][0].api_key;
     }
 
     @Get('token')

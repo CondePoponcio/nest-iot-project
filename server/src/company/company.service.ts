@@ -25,7 +25,7 @@ export class CompanyService {
     }
 
     async update(id: number, updateCompanyDto: UpdateCompanyDto) : Promise<void> {
-        await this.companyRepository.save(updateCompanyDto);
+        await this.companyRepository.update(id,updateCompanyDto);
     }
 
     async remove(id: number) : Promise<void> {
