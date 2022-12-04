@@ -84,8 +84,8 @@ export class SensorDataController {
     @Put(':id')
     async update(@Headers() token, @Param('id') id: string, @Body() updateSensorDto: UpdateSensorDatumDto) {
         try{
-            var result2 = await this.sensorDataService.findOne({"id":id});
-            if(token['token'] == result2.data['api_key']){
+            var result = await this.companyService.findOne({"api_key":token["token"]})
+            if(result){
                 return await this.sensorDataService.update(+id, updateSensorDto);
             }
         } catch (err) {
@@ -97,8 +97,8 @@ export class SensorDataController {
     @Delete(':id')
     async remove(@Headers() token, @Param('id') id: string) {
         try{
-            var result2 = await this.sensorDataService.findOne({"id":id});
-            if(token['token'] == result2.data['api_key']){
+            var result = await this.companyService.findOne({"api_key":token["token"]})
+            if(result){
                 return await this.sensorDataService.remove(+id);
             }
         } catch (err) {
