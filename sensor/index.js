@@ -3,7 +3,7 @@ const mqtt = require('mqtt');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-const client = mqtt.connect(process.env.MQTT_HOST, {
+const client = mqtt.connect("mqtt://broker.emqx.io", {
     clientId: `mqtt_${Math.random().toString(16).slice(3)}`,
     clean: true,
     connectTimeout: 4000,

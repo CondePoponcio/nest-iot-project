@@ -13,10 +13,8 @@ export class SensorDataController {
     ) {}
 
     @Get('sensorData')
-    async getDataSensor() {
-        console.log("Ques cosas", process.env.MQTT_HOST)
-        
-        const client = mqtt.connect(process.env.MQTT_HOST, {
+    async getDataSensor() {        
+        const client = mqtt.connect("mqtt://broker.emqx.io", {
             clientId: `mqtt_${Math.random().toString(16).slice(3)}`,
             clean: true,
             connectTimeout: 4000,
