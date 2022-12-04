@@ -12,10 +12,12 @@ services:
         volumes:
             - ./sensor/:/usr/src/app
             - /usr/src/app/node_modules
+        environment: 
+            - MQTT_HOST=mqtt://mosquitto:1883
         ports:
             - 3000:3000
     mosquitto:
-        image: eclipse-mosquitto:2
+        build: ./mqtt
         volumes:
             - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
         ports:
