@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  creationTimestamp: null
+  name: arqui-emergentes
+spec:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/arqui-emergentes: "true"
+  podSelector:
+    matchLabels:
+      io.kompose.network/arqui-emergentes: "true"

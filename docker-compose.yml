@@ -1,23 +1,22 @@
+version: '3'
 services:
     server:
         build: ./server
-        volumes:
-            - ./server/:/usr/src/app
-            - /usr/src/app/node_modules
         ports:
             - 8000:8000
             - 9000:9000
         environment: 
             - MQTT_HOST=mqtt://mosquitto:1883
+        networks:
+            - arqui-emergentes
     sensor:
         build: ./sensor
-        volumes:
-            - ./sensor/:/usr/src/app
-            - /usr/src/app/node_modules
         environment: 
             - MQTT_HOST=mqtt://mosquitto:1883
         ports:
             - 3000:3000
+        networks:
+            - arqui-emergentes
     mosquitto:
         build: 
             context: ./mqtt
@@ -25,3 +24,7 @@ services:
         ports:
             - 1883:1883
             - 9001:9001
+        networks:
+            - arqui-emergentes
+networks:
+    arqui-emergentes:
