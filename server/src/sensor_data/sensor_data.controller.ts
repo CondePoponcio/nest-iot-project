@@ -14,6 +14,7 @@ export class SensorDataController {
 
     @Get('sensorData')
     async getDataSensor() {
+        console.log("Ques cosas")
         const client = mqtt.connect(process.env.MQTT_HOST, {
             clientId: `mqtt_${Math.random().toString(16).slice(3)}`,
             clean: true,
