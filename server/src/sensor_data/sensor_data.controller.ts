@@ -12,7 +12,7 @@ export class SensorDataController {
 
     @Get('sensorData')
     async getDataSensor() {
-        const client = mqtt.connect(`mqtt://mosquitto:1883`, {
+        const client = mqtt.connect(process.env.MQTT_HOST, {
             clientId: `mqtt_${Math.random().toString(16).slice(3)}`,
             clean: true,
             connectTimeout: 4000,
