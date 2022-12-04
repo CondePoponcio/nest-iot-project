@@ -16,7 +16,8 @@ export class LocationsController {
         try{
             var result = await this.companyService.findOne({"api_key":token["token"].replace('"',"").replace('"',"")});
             if(result.id == createLocationDto.company_id){
-                return await this.locationsService.create(createLocationDto);
+                var result2 = await this.locationsService.create(createLocationDto);
+                return result2['generatedMaps'][0].id
             }
         } catch (err) {
             console.log(err);

@@ -27,10 +27,12 @@ function getRandomInt(max) {
 
 function generateData() {
     randomTemeperature = Math.floor(20 + Math.random() * 40);
+    randomHumidity = Math.floor(5 + Math.random() * 20);
     sensorData = {
         api_key: key,
         data:{
-            temperature: randomTemeperature
+            temperature: randomTemeperature,
+            humidity: randomHumidity
         }
     }
     client.publish('sensorData', JSON.stringify(sensorData))

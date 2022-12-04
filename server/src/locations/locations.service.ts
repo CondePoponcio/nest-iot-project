@@ -13,9 +13,9 @@ export class LocationsService {
         private locationRepository: Repository<Locations>,
     ) {}
 
-    async create(createLocationDto: CreateLocationDto) : Promise<void> {
+    async create(createLocationDto: CreateLocationDto) {
         try {
-            await this.locationRepository.insert(createLocationDto)
+            return await this.locationRepository.insert(createLocationDto)
         } catch (err){
             console.log(err);
             return err.name;
