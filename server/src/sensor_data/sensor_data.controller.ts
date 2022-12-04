@@ -34,7 +34,6 @@ export class SensorDataController {
           })
     }
 
-
     @Post()
     async create(@Headers() token, @Body() createSensorDto: CreateSensorDatumDto) {
         try{
@@ -47,9 +46,18 @@ export class SensorDataController {
         }
     }
     
-    @Get()
-    async findDataSensor(@Headers() token, @Body() data) {
+    @Get(':x')
+    async findDataSensor(@Headers() token, @Param('x') x) {
         try{
+            var separate = x.split("&")
+            var id_sensor = separate[0].split("=")[1].replace("[","").replace("]","").split(",")
+            var from = separate[1].split("=")[1]
+            var to = separate[2].split("=")[1]
+            var data = {
+                sensor_id: id_sensor,
+                from: from,
+                to: to
+            }
             var result = await this.companyService.findOne({"api_key":token["token"]})
             if(result){
                 return await this.sensorDataService.findAll(data);
@@ -60,7 +68,7 @@ export class SensorDataController {
         }
     }
 
-    @Get(':id')
+    /*@Get(':id')
     async findOne(@Headers() token, @Param('id') id: string) {
         try{
             var result2 = await this.sensorDataService.findOne({id:+id})
@@ -71,7 +79,7 @@ export class SensorDataController {
             console.log(err);
             return err.name;
         }
-    }
+    }*/
 
     @Put(':id')
     async update(@Headers() token, @Param('id') id: string, @Body() updateSensorDto: UpdateSensorDatumDto) {
