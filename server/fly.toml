@@ -1,11 +1,12 @@
-# fly.toml file generated for iot-sensor on 2022-12-04T14:34:36-03:00
+# fly.toml file generated for nest-iot-server on 2022-12-04T08:24:41-03:00
 
-app = "iot-sensor"
+app = "nest-iot-server"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
 [env]
+  PORT = 8080
 
 [experimental]
   allowed_public_ports = []
@@ -13,7 +14,7 @@ processes = []
 
 [[services]]
   http_checks = []
-  internal_port = 3000
+  internal_port = 8080
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
