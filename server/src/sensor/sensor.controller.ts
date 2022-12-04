@@ -16,7 +16,7 @@ export class SensorController {
     @Post()
     async create(@Headers() token, @Body() createSensorDto: CreateSensorDto) {
         try{
-            var result = await this.companyService.findOne({"api_key":token["token"]})
+            var result = await this.companyService.findOne({"api_key":token["token"].replace('"',"").replace('"',"")})
             var result2 = await this.locationService.findOne({id: createSensorDto.location_id})
             if(result.id == result2.company_id){
                 var data = await this.sensorService.create(createSensorDto);
@@ -47,7 +47,7 @@ export class SensorController {
     @Get(':id')
     async findOne(@Headers() token, @Param('id') id: string) {
         try{
-            var result = await this.companyService.findOne({"api_key":token["token"]})
+            var result = await this.companyService.findOne({"api_key":token["token"].replace('"',"").replace('"',"")})
             var result2 = await this.sensorService.findOne({"id":id});
             var result3 = await this.locationService.findOne({id: result2.location_id})
             if(result.id == result3.company_id && result2.location_id == result3.id){
@@ -62,7 +62,7 @@ export class SensorController {
     @Put(':id')
     async update(@Headers() token, @Param('id') id: string, @Body() updateSensorDto: UpdateSensorDto) {
         try{
-            var result = await this.companyService.findOne({"api_key":token["token"]})
+            var result = await this.companyService.findOne({"api_key":token["token"].replace('"',"").replace('"',"")})
             var result2 = await this.sensorService.findOne({"id":id});
             var result3 = await this.locationService.findOne({id: result2.location_id})
             if(result.id == result3.company_id && result2.location_id == result3.id){
@@ -77,7 +77,7 @@ export class SensorController {
     @Delete(':id')
     async remove(@Headers() token, @Param('id') id: string) {
         try{
-            var result = await this.companyService.findOne({"api_key":token["token"]})
+            var result = await this.companyService.findOne({"api_key":token["token"].replace('"',"").replace('"',"")})
             var result2 = await this.sensorService.findOne({"id":id});
             var result3 = await this.locationService.findOne({id: result2.location_id})
             if(result.id == result3.company_id && result2.location_id == result3.id){

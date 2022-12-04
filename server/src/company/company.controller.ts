@@ -12,7 +12,7 @@ export class CompanyController {
     @Post()
     async create(@Body() createCompanyDto: CreateCompanyDto) {
         var result = await this.companyService.create(createCompanyDto);
-        return result['generatedMaps'][0].api_key;
+        return [result['generatedMaps'][0].id, result['generatedMaps'][0].api_key];
     }
 
     @Get('token')

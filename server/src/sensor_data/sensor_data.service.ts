@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Sensor } from 'src/sensor/entities/sensor.entity';
 import { Repository } from 'typeorm';
 import { CreateSensorDatumDto } from './dto/create-sensor_datum.dto';
 import { UpdateSensorDatumDto } from './dto/update-sensor_datum.dto';
@@ -10,6 +11,8 @@ export class SensorDataService {
     constructor(
         @InjectRepository(SensorDatum)
         private sensorRepository: Repository<SensorDatum>,
+        @InjectRepository(Sensor)
+        private sensor2Repository: Repository<Sensor>,
     ) {}
 
     async create(createSensorDto: CreateSensorDatumDto) : Promise<void> {
@@ -21,9 +24,14 @@ export class SensorDataService {
         }
     }
 
-    findAll() : Promise<SensorDatum[]> {
+    async findAll(data: any){
         try{
-            return this.sensorRepository.find();
+            var result = await this.sensor2Repository.createQueryBuilder("sensor").where("sensor.id IN (:...ids)", { ids: data.sensor_id }).getMany();
+            var keys = []
+            for(var i=0;i<result.length;i++){
+                keys.push(result[i].api_key)
+            }
+            return await this.sensorRepository.createQueryBuilder("SensorDatum").where('SensorDatum.api_key IN (:...api_keys) and SensorDatum.time >= :from and SensorDatum.time <= :to', { api_keys:keys, from: data.from, to: data.to }).getMany();
         } catch (err) {
             console.log(err);
             return err.name;

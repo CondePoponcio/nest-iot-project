@@ -14,7 +14,7 @@ export class LocationsController {
     @Post()
     async create(@Headers() token, @Body() createLocationDto: CreateLocationDto) {
         try{
-            var result = await this.companyService.findOne({"api_key":token["token"]})
+            var result = await this.companyService.findOne({"api_key":token["token"].replace('"',"").replace('"',"")});
             if(result.id == createLocationDto.company_id){
                 return await this.locationsService.create(createLocationDto);
             }
@@ -37,7 +37,7 @@ export class LocationsController {
     @Get(':id')
     async findOne(@Headers() token, @Param('id') id: string) {
         try{
-            var result = await this.companyService.findOne({"api_key":token["token"]})
+            var result = await this.companyService.findOne({"api_key":token["token"].replace('"',"").replace('"',"")})
             var result2 = await this.locationsService.findOne({"id":id});
             console.log(result, result2)
             if(result.id == result2.company_id){
@@ -52,7 +52,7 @@ export class LocationsController {
     @Put(':id')
     async update(@Headers() token, @Param('id') id: string, @Body() updateLocationDto: UpdateLocationDto) {
         try{
-            var result = await this.companyService.findOne({"api_key":token["token"]})
+            var result = await this.companyService.findOne({"api_key":token["token"].replace('"',"").replace('"',"")})
             var result2 = await this.locationsService.findOne({"id":id});
             if(result.id == result2.company_id){
                 return await this.locationsService.update(+id, updateLocationDto);
@@ -66,7 +66,7 @@ export class LocationsController {
     @Delete(':id')
     async remove(@Headers() token, @Param('id') id: string) {
         try{
-            var result = await this.companyService.findOne({"api_key":token["token"]})
+            var result = await this.companyService.findOne({"api_key":token["token"].replace('"',"").replace('"',"")})
             var result2 = await this.locationsService.findOne({"id":id});
             if(result.id == result2.company_id){
                 return await this.locationsService.remove(+id);

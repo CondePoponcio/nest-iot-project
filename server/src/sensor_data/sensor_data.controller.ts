@@ -2,12 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Headers, Put, Inject
 import { SensorDataService } from './sensor_data.service';
 import { CreateSensorDatumDto } from './dto/create-sensor_datum.dto';
 import { UpdateSensorDatumDto } from './dto/update-sensor_datum.dto';
+import { CompanyService } from 'src/company/company.service';
 const mqtt = require('mqtt');
 
 @Controller('api/v1/sensor_data')
 export class SensorDataController {
     constructor(
-        private readonly sensorDataService: SensorDataService
+        private readonly sensorDataService: SensorDataService,
+        private readonly companyService: CompanyService
     ) {}
 
     @Get('sensorData')
@@ -26,7 +28,9 @@ export class SensorDataController {
         })
         await client.on('message', (topic, payload) => {
             console.log('Received Message:', topic, payload.toString())
-            this.sensorDataService.create({data: payload.toString()});
+            let date = new Date();
+            let numDate: number = Date.parse(date.toString());
+            this.sensorDataService.create({data: JSON.parse(payload).data, api_key:JSON.parse(payload).api_key, time:numDate});
           })
     }
 
@@ -34,7 +38,7 @@ export class SensorDataController {
     @Post()
     async create(@Headers() token, @Body() createSensorDto: CreateSensorDatumDto) {
         try{
-            if(token['token'] == createSensorDto.data['api_key']){
+            if(token['token'] == createSensorDto.api_key){
                 return await this.sensorDataService.create(createSensorDto);
             }
         } catch (err) {
@@ -44,9 +48,12 @@ export class SensorDataController {
     }
     
     @Get()
-    async findAll() {
+    async findDataSensor(@Headers() token, @Body() data) {
         try{
-            return await this.sensorDataService.findAll();
+            var result = await this.companyService.findOne({"api_key":token["token"]})
+            if(result){
+                return await this.sensorDataService.findAll(data);
+            }
         } catch (err) {
             console.log(err);
             return err.name;

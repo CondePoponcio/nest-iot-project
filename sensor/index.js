@@ -29,7 +29,9 @@ function generateData() {
     randomTemeperature = Math.floor(20 + Math.random() * 40);
     sensorData = {
         api_key: key,
-        temperature: randomTemeperature
+        data:{
+            temperature: randomTemeperature
+        }
     }
     client.publish('sensorData', JSON.stringify(sensorData))
     console.log('Published:', JSON.stringify(sensorData))
