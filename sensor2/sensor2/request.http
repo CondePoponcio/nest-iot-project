@@ -1,0 +1,54 @@
+### Arqui Emergentes
+GET https://nest-iot-project-production.up.railway.app/company/token HTTP/1.1
+content-type: application/json
+
+{
+    
+}
+
+POST http://localhost:8000/api/webpay-normal/create HTTP/1.1
+content-type: application/json
+
+{
+    "nombre": "Cosme", 
+    "apellido": "Fulanito",
+    "rut": "19650228-9",
+    "email": "fcondore@gmail.com",
+    "fecha_nacimiento": "1998-08-28",
+    "comentario": "Nada en particular",
+    "farmacos": "Su paracetamil",
+    "doctor": "Dr. Simi"
+}
+
+### Create transaction
+GET  http://localhost:8000/api/create HTTP/1.1
+content-type: application/json
+
+
+
+### Cors test
+POST http://192.168.1.102/api/auth HTTP/1.1
+content-type: application/json
+
+{
+    "nombre": "Cosme", 
+    "apellido": "Fulanito",
+    "rut": "19650228-9",
+    "password": "fcondore@gmail.com",
+    "fecha_nacimiento": "1998-08-28",
+    "comentario": "Nada en particular",
+    "farmacos": "Su paracetamil",
+    "doctor": "Dr. Simi"
+}
+
+
+
+### Check status webpay
+POST https://dermacne.cl/api/webpay-normal/init HTTP/1.1
+content-type: application/json
+
+{
+    "session_id": "a0df0dae-2384-456e-a0e8-51a6d672a99a",
+    "id": 2831
+}
+

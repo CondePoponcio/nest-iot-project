@@ -1,0 +1,24 @@
+version: '3'
+services:
+    backend:
+        build: ./server
+        ports:
+            - 8000:8000
+            - 9000:9000
+            - 80:80
+        environment: 
+            - MQTT_HOST=mqtt://mosquitto:1883
+    sensor:
+        build: ./sensor
+        environment: 
+            - MQTT_HOST=mqtt://mosquitto:1883
+        ports:
+            - 3000:3000
+    mosquitto:
+        build: 
+            context: ./mqtt
+            dockerfile: Dockerfile
+        ports:
+            - 1883:1883
+            - 9001:9001
+        
